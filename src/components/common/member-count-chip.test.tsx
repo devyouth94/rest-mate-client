@@ -9,6 +9,9 @@ jest.mock('~/src/hooks/gatherings/use-count-animation', () => ({
 describe('MemberCountChip 컴포넌트', () => {
   it('현재 인원수와 정원이 렌더링되어야 함', () => {
     render(<MemberCountChip current={5} capacity={20} />);
+    expect(
+      screen.getByRole('status', { name: 'member count' }),
+    ).toBeInTheDocument();
     expect(screen.getByText('5/20')).toBeInTheDocument();
   });
 

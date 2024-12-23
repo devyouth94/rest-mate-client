@@ -5,44 +5,22 @@
  * 전자처럼 시간대 정보가 있으면 한국 시간대로 변환
  * 그 후에 date와 time 형식 분리
  */
-
-import { parseISO } from 'date-fns';
-import { toZonedTime } from 'date-fns-tz';
-
 export default function formatDateTime(dateTime: string): {
   date: string;
   time: string;
 } {
-  const timeZone = 'Asia/Seoul';
-  let parsedDate = parseISO(dateTime);
+  // 시간 부분만 추출
+  const match = dateTime.match(/T(\d{2}):(\d{2})/);
+  if (!match) throw new Error('Invalid date time format');
 
-  // 시간 부분에서만 시간대 정보를 찾도록 수정
-  const timezonePart = dateTime.split('T')[1];
-  const hasTimezoneInfo =
-    timezonePart.includes('Z') ||
-    timezonePart.includes('+') ||
-    timezonePart.includes('-');
+  const hours = match[1];
+  const minutes = match[2];
 
-  if (!hasTimezoneInfo) {
-    console.log('Entering no timezone info branch');
-    parsedDate = new Date(
-      parsedDate.getFullYear(),
-      parsedDate.getMonth(),
-      parsedDate.getDate(),
-      parsedDate.getHours(),
-      parsedDate.getMinutes(),
-    );
-  } else {
-    parsedDate = toZonedTime(parsedDate, timeZone);
-  }
+  // 날짜 부분 추출
+  const [, month, day] = dateTime.split('T')[0].split('-');
 
-  const month = parsedDate.getMonth() + 1;
-  const day = parsedDate.getDate();
-  const hours = parsedDate.getHours();
-  const minutes = parsedDate.getMinutes();
-
-  const date = `${month}월 ${day}일`;
-  const time = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
-
-  return { date, time };
+  return {
+    date: `${Number(month)}월 ${Number(day)}일`,
+    time: `${hours}:${minutes}`,
+  };
 }

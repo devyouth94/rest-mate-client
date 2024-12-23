@@ -9,7 +9,7 @@ describe('ChipInfoContainer', () => {
     render(<ChipInfoContainer dateTime={mockDateTime} />);
 
     expect(screen.getByText('3월 20일')).toBeInTheDocument();
-    expect(screen.getByText('23:30')).toBeInTheDocument();
+    expect(screen.getByText('14:30')).toBeInTheDocument();
   });
 
   it('추가 className이 적용되는지 확인', () => {
@@ -25,7 +25,7 @@ describe('ChipInfoContainer', () => {
     render(<ChipInfoContainer dateTime={mockDateTime} />);
 
     const dateChip = screen.getByText('3월 20일');
-    const timeChip = screen.getByText('23:30');
+    const timeChip = screen.getByText('14:30');
 
     expect(dateChip).toHaveClass('text-white');
     expect(timeChip).toHaveClass('text-orange-600');
@@ -37,5 +37,13 @@ describe('ChipInfoContainer', () => {
 
     expect(screen.getByText('3월 20일')).toBeInTheDocument();
     expect(screen.getByText('14:30')).toBeInTheDocument(); // 한국 시간으로 간주
+  });
+
+  it('한국 시간대 날짜와 시간이 올바르게 표시되는지 확인', () => {
+    const mockDateTimeWithoutZone = '2024-03-20T14:30:00+09:00';
+    render(<ChipInfoContainer dateTime={mockDateTimeWithoutZone} />);
+
+    expect(screen.getByText('3월 20일')).toBeInTheDocument();
+    expect(screen.getByText('14:30')).toBeInTheDocument();
   });
 });

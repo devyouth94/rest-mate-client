@@ -31,7 +31,12 @@ export default function GatheringDetailImage({
           마감
         </Tag>
       )}
-      <Image src={image} alt="gathering image" fill className="rounded-3xl" />
+      <Image
+        src={image}
+        alt="gathering image"
+        fill
+        className="rounded-3xl object-cover"
+      />
     </div>
   );
 }

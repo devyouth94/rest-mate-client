@@ -7,6 +7,9 @@ interface Props extends ComponentPropsWithoutRef<'svg'> {
 export default function Save({ isActive = false, ...props }: Props) {
   return (
     <svg
+      role="button"
+      aria-label={isActive ? '찜하기 취소' : '찜하기'}
+      aria-pressed={isActive}
       width="48"
       height="48"
       viewBox="0 0 48 48"

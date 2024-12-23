@@ -45,7 +45,7 @@ export default function LoginForm() {
               <Input
                 error={form.formState.errors.email?.message}
                 type="email"
-                placeholder="아이디를 입력해주세요"
+                placeholder="이메일을 입력해주세요"
                 {...field}
               />
             </FormItem>

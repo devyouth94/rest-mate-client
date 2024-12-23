@@ -18,7 +18,7 @@ export const gatheringsHandlers = [
   // 특정 Gathering 상세정보 API
   http.get(baseUrl(`/gatherings/:id`), (req) => {
     const { id } = req.params;
-    const gathering = makeFakeGatherings(1, Number(id));
+    const gathering = makeFakeGatherings(1, Number(id))[0];
     if (!gathering) {
       return HttpResponse.json(
         { error: `Gathering with ID ${id} not found` },
@@ -46,6 +46,44 @@ export const gatheringsHandlers = [
     // id 파라미터가 있는 경우 해당 id들의 모임만 반환
     if (ids?.length) {
       const gatherings = ids.map((id) => makeFakeGatherings(1, id, type)[0]);
+      return HttpResponse.json(gatherings);
+    }
+
+    // DALLAEMFIT인 경우 두 가지 타입의 모임을 모두 생성
+    if (type === 'DALLAEMFIT') {
+      const gatherings = [];
+      const halfLimit = Math.ceil(limit / 2);
+
+      // OFFICE_STRETCHING 모임 생성
+      gatherings.push(
+        ...Array.from(
+          { length: halfLimit },
+          (_, i) =>
+            makeFakeGatherings(
+              1,
+              i + 1,
+              'OFFICE_STRETCHING',
+              location,
+              date,
+            )[0],
+        ),
+      );
+
+      // MINDFULNESS 모임 생성
+      gatherings.push(
+        ...Array.from(
+          { length: limit - halfLimit },
+          (_, i) =>
+            makeFakeGatherings(
+              1,
+              halfLimit + i + 1,
+              'MINDFULNESS',
+              location,
+              date,
+            )[0],
+        ),
+      );
+
       return HttpResponse.json(gatherings);
     }
 

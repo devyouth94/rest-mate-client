@@ -11,6 +11,7 @@ import Tag from '~/src/components/common/tag';
 import ChipInfoContainer from '~/src/components/gathering-card/chip-info-container';
 import ClosedButton from '~/src/components/gathering-card/closed-button';
 import Confirmation from '~/src/components/gathering-card/confirmation';
+import { GatheringTypeContainer } from '~/src/components/gathering-card/gathering-type-container';
 import JoinNowButton from '~/src/components/gathering-card/join-now-button';
 import { type GatheringCardProps } from '~/src/components/gathering-card/type-props';
 import useGatheringCard from '~/src/hooks/gatherings/use-gathering-card';
@@ -22,8 +23,8 @@ export default function GatheringCardSmall({
 }: GatheringCardProps) {
   const router = useRouter();
   const { isSaved, handleSaveButton, cardState } = useGatheringCard({
-    participantCount: gathering.participantCount ?? 5,
-    capacity: gathering.capacity ?? 20,
+    participantCount: gathering.participantCount,
+    capacity: gathering.capacity,
     gatheringId: gathering.id,
   });
 
@@ -38,6 +39,7 @@ export default function GatheringCardSmall({
   return (
     <div
       {...props}
+      role="card-small"
       onClick={handleClick}
       className={`relative flex w-full flex-col rounded-3xl border-2 border-gray-100 transition-shadow hover:border-gray-200 hover:shadow-card-hover`}
     >
@@ -48,7 +50,7 @@ export default function GatheringCardSmall({
             src={gathering.image}
             alt="cat"
             fill
-            className="rounded-t-3xl"
+            className="rounded-t-3xl object-cover"
           />
         )}
 
@@ -84,7 +86,8 @@ export default function GatheringCardSmall({
               {gathering.location}
             </span>
           </div>
-          <ChipInfoContainer dateTime={gathering.dateTime ?? ''} />
+          <ChipInfoContainer dateTime={gathering.dateTime} />
+          <GatheringTypeContainer type={gathering.type} />
         </div>
 
         {/* progress bar */}
@@ -94,25 +97,21 @@ export default function GatheringCardSmall({
             {/* 인원수랑 개설확정 */}
             <div className="flex gap-2">
               <MemberCountChip
-                current={gathering.participantCount || 5}
-                capacity={gathering.capacity || 20}
+                current={gathering.participantCount}
+                capacity={gathering.capacity}
                 className={cardState === 'closed' ? 'text-orange-400' : ''}
               />
               {cardState === 'confirmation' && <Confirmation />}
             </div>
             <ProgressBar
-              current={gathering.participantCount || 5}
-              capacity={gathering.capacity || 20}
+              current={gathering.participantCount}
+              capacity={gathering.capacity}
               barClassName={cardState === 'closed' ? 'bg-orange-400' : ''}
             />
           </div>
 
           {/* 버튼 */}
-          {cardState === 'closed' ? (
-            <ClosedButton />
-          ) : (
-            <JoinNowButton onClick={() => console.log('wow')} />
-          )}
+          {cardState === 'closed' ? <ClosedButton /> : <JoinNowButton />}
         </div>
       </div>
 
@@ -127,6 +126,8 @@ export default function GatheringCardSmall({
           </div>
           {isSaved && (
             <RectangleBye
+              role="button"
+              aria-label="save-bye-small"
               className="pointer-events-auto cursor-pointer"
               onClick={(e: React.MouseEvent<SVGSVGElement>) => {
                 e.preventDefault();

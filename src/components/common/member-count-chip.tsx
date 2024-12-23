@@ -19,6 +19,8 @@ export default function MemberCountChip({
 
   return (
     <span
+      role="status"
+      aria-label="member count"
       className={cn(
         `inline-flex items-center gap-0.5 text-sm font-medium text-gray-700`,
         className,

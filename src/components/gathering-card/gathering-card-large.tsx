@@ -11,6 +11,7 @@ import Tag from '~/src/components/common/tag';
 import ChipInfoContainer from '~/src/components/gathering-card/chip-info-container';
 import ClosedButton from '~/src/components/gathering-card/closed-button';
 import Confirmation from '~/src/components/gathering-card/confirmation';
+import { GatheringTypeContainer } from '~/src/components/gathering-card/gathering-type-container';
 import JoinNowButton from '~/src/components/gathering-card/join-now-button';
 import { type GatheringCardProps } from '~/src/components/gathering-card/type-props';
 import useGatheringCard from '~/src/hooks/gatherings/use-gathering-card';
@@ -39,17 +40,18 @@ export default function GatheringCardLarge({
     <div
       {...props}
       onClick={handleClick}
+      role="card-large"
       className={`relative flex rounded-3xl border-2 border-gray-100 transition-shadow hover:border-gray-200 hover:shadow-card-hover`}
     >
       {/* 이미지 */}
-      <div className="relative h-[156px] w-[280px] flex-shrink-0">
+      <div className="relative w-[280px] flex-shrink-0">
         {/* 이미지 없으면 그냥 하얗게 비워놓음 */}
         {gathering.image && (
           <Image
             src={gathering.image}
             alt="cat"
             fill
-            className="rounded-l-3xl"
+            className="rounded-l-3xl object-cover"
           />
         )}
 
@@ -82,7 +84,8 @@ export default function GatheringCardLarge({
                 {gathering.location}
               </span>
             </div>
-            <ChipInfoContainer dateTime={gathering.dateTime ?? ''} />
+            <ChipInfoContainer dateTime={gathering.dateTime} />
+            <GatheringTypeContainer type={gathering.type} />
           </div>
         </div>
         <div>
@@ -108,18 +111,14 @@ export default function GatheringCardLarge({
               {cardState === 'confirmation' && <Confirmation />}
             </div>
             <ProgressBar
-              current={gathering.participantCount || 5}
-              capacity={gathering.capacity || 20}
+              current={gathering.participantCount}
+              capacity={gathering.capacity}
               barClassName={cardState === 'closed' ? 'bg-orange-400' : ''}
             />
           </div>
 
           {/* 버튼 */}
-          {cardState === 'closed' ? (
-            <ClosedButton />
-          ) : (
-            <JoinNowButton onClick={() => console.log('wow')} />
-          )}
+          {cardState === 'closed' ? <ClosedButton /> : <JoinNowButton />}
         </div>
       </div>
 
@@ -135,7 +134,7 @@ export default function GatheringCardLarge({
           {isSaved && (
             <SaveBye
               role="button"
-              aria-label="save-bye"
+              aria-label="save-bye-large"
               className="pointer-events-auto absolute right-4 top-4 cursor-pointer"
               onClick={(e: React.MouseEvent<SVGSVGElement>) => {
                 e.preventDefault();

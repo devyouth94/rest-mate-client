@@ -53,7 +53,7 @@ export default function GatheringProfileImages({
             alt={`Profile Image ${index + 1}`}
             width={29}
             height={29}
-            className="rounded-full"
+            className="rounded-full object-cover"
             style={{ aspectRatio: '1' }}
           />
         </div>
@@ -74,7 +74,7 @@ export default function GatheringProfileImages({
               alt={`Profile Image ${index + 1}`}
               width={29}
               height={29}
-              className="rounded-full"
+              className="rounded-full object-cover"
               style={{ aspectRatio: '1' }}
             />
             <span className="text-xs">{participant.name}</span>

@@ -66,16 +66,18 @@ export default function ProfileEdit() {
   const onSubmit = async (data: UserEditType) => {
     const formData = new FormData();
     formData.append('companyName', data.companyName || '');
-    formData.append('image', imageFile || user?.image || '');
-
+    if (imageFile) {
+      formData.append('image', imageFile);
+    }
     EditUser(formData, {
       onSuccess: (update) => {
         setUser(update as unknown as User);
         setIsModalOpen(false);
         toast.success('수정되었습니다.');
       },
-      onError: () => {
+      onError: (error) => {
         toast.error('수정 중에 오류가 발생했습니다.');
+        console.error(error);
       },
     });
   };

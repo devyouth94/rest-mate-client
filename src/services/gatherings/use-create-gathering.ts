@@ -6,7 +6,7 @@ import { post } from '~/src/services/api';
 import { type CreateGatheringResponse } from '~/src/services/gatherings/types';
 import { useJoinGathering } from '~/src/services/gatherings/use-join-gathering';
 import { type GatheringType } from '~/src/services/types';
-import { getDateForFormData } from '~/src/utils/date';
+import { convertTo24Hour, getDateForFormData } from '~/src/utils/date';
 
 export default function useCreateGathering() {
   const queryClient = useQueryClient();
@@ -18,15 +18,7 @@ export default function useCreateGathering() {
       const { name, location, type, date, image, capacity } = form;
 
       const appendDateTime = (dateObj: typeof date.gathering) => {
-        const adjustedHour =
-          dateObj.ampm === 'AM'
-            ? dateObj.hour === 12
-              ? 0 // AM 12시는 00시로 변환
-              : dateObj.hour
-            : dateObj.hour === 12
-              ? 12 // PM 12시는 그대로 12시
-              : dateObj.hour + 12;
-
+        const adjustedHour = convertTo24Hour(dateObj);
         return getDateForFormData(dateObj.date, adjustedHour, dateObj.minutes);
       };
 
@@ -35,11 +27,13 @@ export default function useCreateGathering() {
       formData.append('location', location);
       formData.append('type', type);
       formData.append('dateTime', appendDateTime(date.gathering));
+      formData.append('capacity', capacity);
+      formData.append('image', image);
+
+      //마감날짜는 있을때만 전송
       if (date.registration) {
         formData.append('registrationEnd', appendDateTime(date.registration));
       }
-      formData.append('capacity', capacity);
-      formData.append('image', image);
 
       return post<CreateGatheringResponse>(`/gatherings`, formData, {
         headers: {

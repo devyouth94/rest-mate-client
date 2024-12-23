@@ -61,7 +61,7 @@ export default function SignupForm() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel htmlFor="email">이메일</FormLabel>
+                <FormLabel htmlFor="email">아이디</FormLabel>
                 <Input
                   error={form.formState.errors.email?.message}
                   type="email"
@@ -80,7 +80,7 @@ export default function SignupForm() {
                 <Input
                   error={form.formState.errors.companyName?.message}
                   type="text"
-                  placeholder="회사를 입력해주세요"
+                  placeholder="회사명을 입력해주세요"
                   {...field}
                 />
               </FormItem>
@@ -110,7 +110,7 @@ export default function SignupForm() {
                 <Input
                   error={form.formState.errors.confirmPassword?.message}
                   type="password"
-                  placeholder="비밀번호를 입력해주세요"
+                  placeholder="비밀번호를 다시 한 번 입력해주세요"
                   {...field}
                 />
               </FormItem>

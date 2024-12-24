@@ -1,0 +1,290 @@
+{
+  "data": [
+    {
+      "teamId": "fesi0501",
+      "id": 1,
+      "score": 5,
+      "comment": "멤버들과 함께한 마인드풀니스 시간이 정말 좋았어요. 업무 스트레스가 확실히 줄어든 것 같아요!",
+      "createdAt": "2024-12-03T14:30:00Z",
+      "Gathering": {
+        "teamId": "fesi0501",
+        "id": 101,
+        "type": "MINDFULNESS",
+        "name": "힐링 마인드풀니스 세션",
+        "dateTime": "2024-12-02T13:00:00Z",
+        "location": "을지로3가",
+        "image": "https://picsum.photos/id/101/300"
+      },
+      "User": {
+        "teamId": "fesi0501",
+        "id": 201,
+        "name": "김지원",
+        "image": "https://picsum.photos/id/201/300"
+      }
+    },
+    {
+      "teamId": "fesi0501",
+      "id": 2,
+      "score": 4,
+      "comment": "같은 시간에 참여했는데 정말 좋았어요!",
+      "createdAt": "2024-12-03T15:30:00Z",
+      "Gathering": {
+        "teamId": "fesi0501",
+        "id": 101,
+        "type": "MINDFULNESS",
+        "name": "힐링 마인드풀니스 세션",
+        "dateTime": "2024-12-02T13:00:00Z",
+        "location": "을지로3가",
+        "image": "https://picsum.photos/id/101/300"
+      },
+      "User": {
+        "teamId": "fesi0501",
+        "id": 202,
+        "name": "이서연",
+        "image": "https://picsum.photos/id/202/300"
+      }
+    },
+    {
+      "teamId": "fesi0501",
+      "id": 3,
+      "score": 5,
+      "comment": "달램핏 요가가 이렇게 재미있을 줄 몰랐어요!",
+      "createdAt": "2024-12-05T16:45:00Z",
+      "Gathering": {
+        "teamId": "fesi0501",
+        "id": 102,
+        "type": "MINDFULNESS",
+        "name": "달램핏 요가 클래스",
+        "dateTime": "2024-12-04T15:00:00Z",
+        "location": "건대입구",
+        "image": "https://picsum.photos/id/102/300"
+      },
+      "User": {
+        "teamId": "fesi0501",
+        "id": 203,
+        "name": "박준호",
+        "image": "https://picsum.photos/id/203/300"
+      }
+    },
+    {
+      "teamId": "fesi0501",
+      "id": 4,
+      "score": 4,
+      "comment": "요가 강사님이 너무 친절하셨어요",
+      "createdAt": "2024-12-05T17:00:00Z",
+      "Gathering": {
+        "teamId": "fesi0501",
+        "id": 102,
+        "type": "MINDFULNESS",
+        "name": "달램핏 요가 클래스",
+        "dateTime": "2024-12-04T15:00:00Z",
+        "location": "건대입구",
+        "image": "https://picsum.photos/id/102/300"
+      },
+      "User": {
+        "teamId": "fesi0501",
+        "id": 204,
+        "name": "최다은",
+        "image": "https://picsum.photos/id/204/300"
+      }
+    },
+    {
+      "teamId": "fesi0501",
+      "id": 5,
+      "score": 5,
+      "comment": "요가 수업 최고였어요!",
+      "createdAt": "2024-12-05T17:15:00Z",
+      "Gathering": {
+        "teamId": "fesi0501",
+        "id": 102,
+        "type": "OFFICE_STRETCHING",
+        "name": "달램핏 요가 클래스",
+        "dateTime": "2024-12-04T15:00:00Z",
+        "location": "건대입구",
+        "image": "https://picsum.photos/id/102/300"
+      },
+      "User": {
+        "teamId": "fesi0501",
+        "id": 205,
+        "name": "정현우",
+        "image": "https://picsum.photos/id/205/300"
+      }
+    },
+    {
+      "teamId": "fesi0501",
+      "id": 6,
+      "score": 5,
+      "comment": "매주 참여하고 싶은 프로그램이에요! 강사님도 친절하시고 동료들과 함께해서 더 즐거웠습니다.",
+      "createdAt": "2024-12-15T15:45:00Z",
+      "Gathering": {
+        "teamId": "fesi0501",
+        "id": 106,
+        "type": "MINDFULNESS",
+        "name": "달램핏 댄스 클래스",
+        "dateTime": "2024-12-14T14:00:00Z",
+        "location": "홍대입구",
+        "image": "https://picsum.photos/id/106/300"
+      },
+      "User": {
+        "teamId": "fesi0501",
+        "id": 206,
+        "name": "송미나",
+        "image": "https://picsum.photos/id/206/300"
+      }
+    },
+    {
+      "teamId": "fesi0501",
+      "id": 7,
+      "score": 4,
+      "comment": "업무 중간에 하는 스트레칭이 정말 도움이 되네요",
+      "createdAt": "2024-12-18T10:30:00Z",
+      "Gathering": {
+        "teamId": "fesi0501",
+        "id": 107,
+        "type": "OFFICE_STRETCHING",
+        "name": "모닝 스트레치",
+        "dateTime": "2024-12-17T09:00:00Z",
+        "location": "건대입구",
+        "image": "https://picsum.photos/id/107/300"
+      },
+      "User": {
+        "teamId": "fesi0501",
+        "id": 207,
+        "name": "강민석",
+        "image": "https://picsum.photos/id/207/300"
+      }
+    },
+    {
+      "teamId": "fesi0501",
+      "id": 8,
+      "score": 5,
+      "comment": "워케이션 덕분에 새로운 아이디어가 많이 떠올랐어요. 환경도 좋고 집중이 잘 되었습니다!",
+      "createdAt": "2024-12-20T18:15:00Z",
+      "Gathering": {
+        "teamId": "fesi0501",
+        "id": 108,
+        "type": "WORKATION",
+        "name": "크리에이티브 워케이션",
+        "dateTime": "2024-12-19T09:00:00Z",
+        "location": "신림",
+        "image": "https://picsum.photos/id/108/300"
+      },
+      "User": {
+        "teamId": "fesi0501",
+        "id": 208,
+        "name": "임수진",
+        "image": "https://picsum.photos/id/208/300"
+      }
+    },
+    {
+      "teamId": "fesi0501",
+      "id": 9,
+      "score": 3,
+      "comment": "괜찮았어요",
+      "createdAt": "2024-12-22T13:40:00Z",
+      "Gathering": {
+        "teamId": "fesi0501",
+        "id": 109,
+        "type": "MINDFULNESS",
+        "name": "이브닝 마인드풀니스",
+        "dateTime": "2024-12-21T17:00:00Z",
+        "location": "홍대입구",
+        "image": "https://picsum.photos/id/109/300"
+      },
+      "User": {
+        "teamId": "fesi0501",
+        "id": 209,
+        "name": "윤재민",
+        "image": "https://picsum.photos/id/209/300"
+      }
+    },
+    {
+      "teamId": "fesi0501",
+      "id": 10,
+      "score": 5,
+      "comment": "매주 참여하고 싶은 프로그램이에요! 점심시간이 이렇게 알차게 보내질 수 있다니!",
+      "createdAt": "2024-12-24T14:20:00Z",
+      "Gathering": {
+        "teamId": "fesi0501",
+        "id": 110,
+        "type": "WORKATION",
+        "name": "런치타임 달램핏",
+        "dateTime": "2024-12-23T12:00:00Z",
+        "location": "을지로3가",
+        "image": "https://picsum.photos/id/110/300"
+      },
+      "User": {
+        "teamId": "fesi0501",
+        "id": 210,
+        "name": "한소희",
+        "image": "https://picsum.photos/id/210/300"
+      }
+    },
+    {
+      "teamId": "fesi0501",
+      "id": 11,
+      "score": 4,
+      "comment": "목과 어깨가 많이 풀렸어요. 감사합니다!",
+      "createdAt": "2024-12-26T16:50:00Z",
+      "Gathering": {
+        "teamId": "fesi0501",
+        "id": 111,
+        "type": "OFFICE_STRETCHING",
+        "name": "목어깨 케어 클래스",
+        "dateTime": "2024-12-25T15:00:00Z",
+        "location": "신림",
+        "image": "https://picsum.photos/id/111/300"
+      },
+      "User": {
+        "teamId": "fesi0501",
+        "id": 211,
+        "name": "조현우",
+        "image": "https://picsum.photos/id/211/300"
+      }
+    },
+    {
+      "teamId": "fesi0501",
+      "id": 12,
+      "score": 5,
+      "comment": "업무 효율이 확실히 올라가는 것 같아요. 다음 워케이션도 기대됩니다!",
+      "createdAt": "2024-12-28T11:10:00Z",
+      "Gathering": {
+        "teamId": "fesi0501",
+        "id": 112,
+        "type": "WORKATION",
+        "name": "연말 특별 워케이션",
+        "dateTime": "2024-12-27T09:00:00Z",
+        "location": "건대입구",
+        "image": "https://picsum.photos/id/112/300"
+      },
+      "User": {
+        "teamId": "fesi0501",
+        "id": 212,
+        "name": "백지현",
+        "image": "https://picsum.photos/id/212/300"
+      }
+    },
+    {
+      "teamId": "fesi0501",
+      "id": 13,
+      "score": 4,
+      "comment": "마음이 차분해지는 시간이었습니다",
+      "createdAt": "2024-12-30T15:30:00Z",
+      "Gathering": {
+        "teamId": "fesi0501",
+        "id": 113,
+        "type": "MINDFULNESS",
+        "name": "연말 마음 정리 세션",
+        "dateTime": "2024-12-29T14:00:00Z",
+        "location": "을지로3가",
+        "image": "https://picsum.photos/id/113/300"
+      },
+      "User": {
+        "teamId": "fesi0501",
+        "id": 213,
+        "name": "신동훈",
+        "image": "https://picsum.photos/id/213/300"
+      }
+    }
+  ]
+}

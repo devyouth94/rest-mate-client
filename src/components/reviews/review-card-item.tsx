@@ -80,7 +80,7 @@ export default function ReviewCardItem({
             </>
           )}
           <span className="text-secondary-500">
-            {new Date(data.createdAt).toLocaleDateString('ko-KR')}
+            {data.createdAt.split('T')[0].replace(/-/g, '. ')}
           </span>
         </div>
       </div>

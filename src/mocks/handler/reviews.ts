@@ -1,120 +1,169 @@
 import { http, HttpResponse } from 'msw';
 
+import reviewJSON from '~/src/mocks/handler/reviews.json';
 import { baseUrl, getQueryParams } from '~/src/mocks/utils';
 
 export const reviewsHandlers = [
   http.get(baseUrl('/reviews'), ({ request }) => {
-    const { limit, offset } = getQueryParams(request.url, [
-      'limit',
-      'offset',
-    ] as const);
-
-    const baseReviews = [
-      {
-        teamId: 1,
-        id: 1,
-        score: 4,
-        comment: '멤버들과 좋은 시간을 보냈습니다. 다음에도 참여하고 싶네요!',
-        createdAt: '2024-03-20T09:00:00Z',
-        Gathering: {
-          teamId: 1,
-          id: 101,
-          type: 'DALLAEMFIT',
-          name: '달램핏 오피스 스트레칭',
-          dateTime: '2024-03-19T15:00:00Z',
-          location: '건대입구',
-          image: '/IMG_1053.jpg',
-        },
-        User: {
-          teamId: 1,
-          id: 201,
-          name: '김철수',
-          image: '/IMG_1190.jpg',
-        },
-      },
-      {
-        teamId: 1,
-        id: 2,
-        score: 5,
-        comment: '정말 유익한 모임이었습니다! 강사님도 친절하시고 좋았어요',
-        createdAt: '2024-03-19T14:30:00Z',
-        Gathering: {
-          teamId: 1,
-          id: 102,
-          type: 'MINDFULNESS',
-          name: '마인드풀니스 명상 클래스',
-          dateTime: '2024-03-18T13:00:00Z',
-          location: '을지로3가',
-          image: '/IMG_1190.jpg',
-        },
-        User: {
-          teamId: 1,
-          id: 202,
-          name: '이영희',
-          image: '/IMG_1053.jpg',
-        },
-      },
-    ];
-
-    const reviews = Array.from({ length: 13 }, (_, index) => {
-      const multiplier = index * 2;
-      return [
-        {
-          ...baseReviews[0],
-          id: multiplier + 1,
-          User: {
-            ...baseReviews[0].User,
-            id: baseReviews[0].User.id + multiplier,
-          },
-          Gathering: {
-            ...baseReviews[0].Gathering,
-            id: baseReviews[0].Gathering.id + multiplier,
-          },
-        },
-        {
-          ...baseReviews[1],
-          id: multiplier + 2,
-          User: {
-            ...baseReviews[1].User,
-            id: baseReviews[1].User.id + multiplier,
-          },
-          Gathering: {
-            ...baseReviews[1].Gathering,
-            id: baseReviews[1].Gathering.id + multiplier,
-          },
-        },
-      ];
-    }).flat();
-
-    const parsedOffset = offset ? parseInt(offset) : 0;
-    const parsedLimit = limit ? parseInt(limit) : 10;
-    const paginatedReviews = reviews.slice(
-      parsedOffset,
-      parsedOffset + parsedLimit,
+    const { offset, limit, type, location, date, sortBy } = getQueryParams(
+      request.url,
+      ['offset', 'limit', 'type', 'location', 'date', 'sortBy'] as const,
     );
 
-    return HttpResponse.json({
-      data: paginatedReviews,
-      totalItemCount: reviews.length,
-      currentPage: Math.floor(parsedOffset / parsedLimit) + 1,
-      totalPages: Math.ceil(reviews.length / parsedLimit),
-    });
+    const { data } = reviewJSON;
+
+    // 필터링 적용
+    const filteredData = filterReviews(data, { type, location, date });
+
+    // 참여자 수 계산
+    const participantCounts = calculateParticipantCounts(filteredData);
+
+    // 정렬 적용
+    const sortedData = sortReviews(filteredData, sortBy, participantCounts);
+
+    // 페이지네이션 데이터 계산
+    return HttpResponse.json(
+      calculatePaginationData(sortedData, offset, limit),
+    );
   }),
 
   http.get(baseUrl('/reviews/scores'), ({ request }) => {
     const { type } = getQueryParams(request.url, ['type'] as const);
 
+    const { data } = reviewJSON;
+
+    // 필터링 적용
+    const filteredData = filterReviews(data, { type });
+
+    // 별점 통계 계산
+    const scoreStats = calculateScoreStats(filteredData);
+
+    // 평균 점수 계산
+    const averageScore = calculateAverageScore(filteredData);
+
     return HttpResponse.json([
       {
         teamId: 'fesi0501',
         type,
-        averageScore: 4.2,
-        oneStar: 2,
-        twoStars: 3,
-        threeStars: 8,
-        fourStars: 15,
-        fiveStars: 12,
+        averageScore: Number(averageScore.toFixed(1)),
+        ...scoreStats,
       },
     ]);
   }),
 ];
+
+export const filterReviews = (
+  reviews: typeof reviewJSON.data,
+  filters: {
+    type: string | null;
+    location?: string | null;
+    date?: string | null;
+  },
+) => {
+  return reviews.filter((review) => {
+    const typeMatch = filters.type
+      ? filters.type === 'DALLAEMFIT'
+        ? ['OFFICE_STRETCHING', 'MINDFULNESS'].includes(review.Gathering.type)
+        : review.Gathering.type === filters.type
+      : true;
+    const locationMatch = filters.location
+      ? review.Gathering.location === filters.location
+      : true;
+    const dateMatch = filters.date
+      ? review.createdAt.split('T')[0] === filters.date
+      : true;
+
+    return typeMatch && locationMatch && dateMatch;
+  });
+};
+
+export const calculateParticipantCounts = (reviews: typeof reviewJSON.data) => {
+  return reviews.reduce(
+    (acc, review) => {
+      const gatheringId = review.Gathering.id;
+      acc[gatheringId] = (acc[gatheringId] || 0) + 1;
+      return acc;
+    },
+    {} as Record<number, number>,
+  );
+};
+
+export const sortReviews = (
+  reviews: typeof reviewJSON.data,
+  sortBy: string | null,
+  participantCounts: Record<number, number>,
+) => {
+  if (!sortBy) return reviews;
+
+  return [...reviews].sort((a, b) => {
+    switch (sortBy) {
+      case 'createdAt':
+        return (
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+      case 'score':
+        return b.score - a.score;
+      case 'participantCount':
+        return (
+          participantCounts[b.Gathering.id] - participantCounts[a.Gathering.id]
+        );
+      default:
+        return 0;
+    }
+  });
+};
+
+export const calculatePaginationData = (
+  filteredData: typeof reviewJSON.data,
+  offset: string | null,
+  limit: string | null,
+) => {
+  const slicedData = filteredData.slice(
+    Number(offset),
+    Number(offset) + Number(limit),
+  );
+
+  return {
+    data: slicedData,
+    totalItemCount: filteredData.length,
+    currentPage: Math.floor(Number(offset) / Number(limit)) + 1,
+    totalPages: Math.ceil(filteredData.length / Number(limit)),
+  };
+};
+
+export const calculateScoreStats = (reviews: typeof reviewJSON.data) => {
+  return reviews.reduce(
+    (acc, review) => {
+      switch (review.score) {
+        case 1:
+          acc.oneStar++;
+          break;
+        case 2:
+          acc.twoStars++;
+          break;
+        case 3:
+          acc.threeStars++;
+          break;
+        case 4:
+          acc.fourStars++;
+          break;
+        case 5:
+          acc.fiveStars++;
+          break;
+      }
+      return acc;
+    },
+    {
+      oneStar: 0,
+      twoStars: 0,
+      threeStars: 0,
+      fourStars: 0,
+      fiveStars: 0,
+    },
+  );
+};
+
+export const calculateAverageScore = (reviews: typeof reviewJSON.data) => {
+  const totalScore = reviews.reduce((sum, review) => sum + review.score, 0);
+  return reviews.length > 0 ? totalScore / reviews.length : 0;
+};

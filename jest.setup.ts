@@ -1,3 +1,5 @@
+import { server } from '~/src/mocks/server';
+
 import '@testing-library/jest-dom';
 
 // 재사용할 mock 함수들을 먼저 생성
@@ -31,4 +33,19 @@ beforeEach(() => {
   mockBack.mockClear();
   mockRefresh.mockClear();
   mockForward.mockClear();
+});
+
+// 모든 테스트 전에 msw 서버 시작
+beforeAll(() => {
+  server.listen();
+});
+
+// 각 테스트 후에 msw 서버 핸들러 초기화
+afterEach(() => {
+  server.resetHandlers();
+});
+
+// 모든 테스트 후에 msw 서버 종료
+afterAll(() => {
+  server.close();
 });

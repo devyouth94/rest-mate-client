@@ -19,9 +19,6 @@ export default function useGetJoinedGatheringsInfinite(
     queryFn: ({ pageParam }) =>
       get<GetJoinedGatheringsResponse>(`/gatherings/joined`, {
         params: { ...params, ...pageParam },
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
       }),
     enabled: !!accessToken && !!userId,
     initialPageParam: { limit: LIMIT, offset: 0 },

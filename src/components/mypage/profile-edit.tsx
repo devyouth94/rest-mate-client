@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import Image from 'next/image';
+import imageCompression from 'browser-image-compression';
 import { useAtom, useSetAtom } from 'jotai';
 import { toast } from 'sonner';
 
-import CircleEdit from '~/src/assets/icons/circle-edit.svg?url';
+import CircleEdit from '~/src/assets/icons/circle-edit';
 import {
   Avatar,
   AvatarFallback,
@@ -82,23 +82,39 @@ export default function ProfileEdit() {
     });
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       const maxFileSize = 2 * 1024 * 1024;
-      if (file.size > maxFileSize) {
-        return;
+      try {
+        if (file.size > maxFileSize) {
+          const options = {
+            initialQuality: 0.9,
+            maxSizeMB: 2,
+            maxWidthOrHeight: 1024,
+            useWebWorker: true,
+          };
+          const compressedFile = await imageCompression(file, options);
+
+          const preview =
+            await imageCompression.getDataUrlFromFile(compressedFile);
+          setImageFile(compressedFile);
+          setPreviewImage(preview);
+          setValue('image', preview, { shouldDirty: true });
+        } else {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            const preview = reader.result as string;
+            setPreviewImage(preview);
+            setValue('image', preview, { shouldDirty: true });
+          };
+          reader.readAsDataURL(file);
+          setImageFile(file);
+        }
+      } catch (error) {
+        console.error(error);
+        toast.error('이미지 업로드 중 오류가 발생했습니다.');
       }
-
-      setImageFile(file);
-      const reader = new FileReader();
-
-      reader.onloadend = () => {
-        const preview = reader.result as string;
-        setPreviewImage(preview);
-        setValue('image', preview, { shouldDirty: true });
-      };
-      reader.readAsDataURL(file);
     }
   };
 
@@ -106,11 +122,11 @@ export default function ProfileEdit() {
     <>
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogTrigger asChild>
-          <Image
-            src={CircleEdit}
-            alt="circle-edit"
+          <CircleEdit
             width={32}
             height={32}
+            role="button"
+            data-testid="edit-profile"
             className="cursor-pointer rounded-2xl shadow-sm hover:shadow-md"
           />
         </DialogTrigger>
@@ -132,13 +148,14 @@ export default function ProfileEdit() {
                 className="relative h-14 w-14 cursor-pointer"
                 onClick={() => document.getElementById('fileInput')?.click()}
               >
-                <AvatarImage src={previewImage || user?.image}></AvatarImage>
+                <AvatarImage
+                  src={previewImage || user?.image}
+                  alt="preview"
+                ></AvatarImage>
                 <AvatarFallback />
-                <Image
-                  src={CircleEdit}
+                <CircleEdit
                   width={18}
                   height={18}
-                  alt="Edit-Icon"
                   className="absolute bottom-0 right-0 z-10"
                 />
               </Avatar>

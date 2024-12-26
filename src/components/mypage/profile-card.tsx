@@ -30,7 +30,7 @@ export default function ProfileCard() {
           <ProfileEdit />
         </div>
         <div className="absolute -bottom-10 left-4">
-          <Avatar className="h-14 w-14">
+          <Avatar>
             <AvatarImage src={user?.image}></AvatarImage>
             <AvatarFallback />
           </Avatar>

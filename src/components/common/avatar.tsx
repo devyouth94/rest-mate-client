@@ -60,7 +60,7 @@ const AvatarFallback = React.forwardRef<
     )}
     {...props}
   >
-    <Image src={profilelarge} alt="default-profile" objectFit="cover" />
+    <Image src={profilelarge} alt="profile_img" className="object-cover" />
   </AvatarPrimitive.Fallback>
 ));
 AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName;

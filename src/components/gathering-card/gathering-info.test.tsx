@@ -1,9 +1,9 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import GatheringInfo from '~/src/components/gathering-card/gathering-info';
 import { type Gathering } from '~/src/services/gatherings/types';
+import { wrapper } from '~/src/utils/wrapper';
 
 jest.mock('~/src/hooks/gatherings/use-count-animation', () => ({
   __esModule: true,
@@ -29,21 +29,13 @@ describe('GatheringInfo 컴포넌트', () => {
     canceledAt: null,
   };
 
-  const queryClient = new QueryClient();
-
-  const renderWithQueryClient = (ui: React.ReactElement) => {
-    return render(
-      <QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>,
-    );
-  };
-
   it('모집 정원이 5명 이상일 때 Confirmation 컴포넌트를 렌더링해야 함', () => {
-    renderWithQueryClient(<GatheringInfo gathering={mockGathering} />);
+    render(<GatheringInfo gathering={mockGathering} />, { wrapper });
     expect(screen.getByText('개설확정')).toBeInTheDocument();
   });
 
   it('찜하기 버튼을 클릭하면 localStorage에 저장되어야 함', async () => {
-    renderWithQueryClient(<GatheringInfo gathering={mockGathering} />);
+    render(<GatheringInfo gathering={mockGathering} />, { wrapper });
     const user = userEvent.setup();
 
     // Save 아이콘 찾기
@@ -66,7 +58,7 @@ describe('GatheringInfo 컴포넌트', () => {
     // 미리 localStorage에 찜하기 데이터 설정
     localStorage.setItem('wishlist', JSON.stringify([mockGathering.id]));
 
-    renderWithQueryClient(<GatheringInfo gathering={mockGathering} />);
+    render(<GatheringInfo gathering={mockGathering} />, { wrapper });
     const user = userEvent.setup();
 
     // Save 아이콘 찾기

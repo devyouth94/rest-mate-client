@@ -67,7 +67,7 @@ describe('GatheringPanel', () => {
 
     // 정렬 버튼 클릭하여 드롭다운 열기
     const sortButton = screen.getByRole('button', {
-      name: /sortIcon/i,
+      name: /정렬 아이콘/i,
     });
     fireEvent.click(sortButton);
 

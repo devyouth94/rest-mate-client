@@ -34,7 +34,7 @@ describe('GatheringReviewList', () => {
     expect(screen.getByText('아직 리뷰가 없어요')).toBeInTheDocument();
   });
 
-  it('에러가 발생��을 때 에러 메시지를 렌더링합니다', () => {
+  it('에러가 발생했을 때 에러 메시지를 렌더링합니다', () => {
     mockUseGatheringReview.mockReturnValue({
       data: null,
       isLoading: false,

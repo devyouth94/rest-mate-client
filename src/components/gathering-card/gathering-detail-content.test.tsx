@@ -1,13 +1,11 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, screen } from '@testing-library/react';
 
 import GatheringDetailContent from '~/src/components/gathering-card/gathering-detail-content';
 import useGatheringDetail from '~/src/services/gatherings/use-gathering-detail';
+import { wrapper } from '~/src/utils/wrapper';
 
 // useGatheringDetail 훅을 모의
 jest.mock('~/src/services/gatherings/use-gathering-detail');
-
-const queryClient = new QueryClient();
 
 describe('GatheringDetailContent', () => {
   const mockData = {
@@ -26,11 +24,7 @@ describe('GatheringDetailContent', () => {
       isError: false,
     });
 
-    render(
-      <QueryClientProvider client={queryClient}>
-        <GatheringDetailContent gatheringId={1} />
-      </QueryClientProvider>,
-    );
+    render(<GatheringDetailContent gatheringId={1} />, { wrapper });
 
     expect(screen.getByText(/loading/i)).toBeInTheDocument();
   });
@@ -42,11 +36,7 @@ describe('GatheringDetailContent', () => {
       isError: true,
     });
 
-    render(
-      <QueryClientProvider client={queryClient}>
-        <GatheringDetailContent gatheringId={1} />
-      </QueryClientProvider>,
-    );
+    render(<GatheringDetailContent gatheringId={1} />, { wrapper });
 
     expect(screen.getByText(/에러가 발생했습니다./i)).toBeInTheDocument();
   });
@@ -58,13 +48,8 @@ describe('GatheringDetailContent', () => {
       isError: false,
     });
 
-    render(
-      <QueryClientProvider client={queryClient}>
-        <GatheringDetailContent gatheringId={1} />
-      </QueryClientProvider>,
-    );
+    render(<GatheringDetailContent gatheringId={1} />, { wrapper });
 
     expect(screen.getByAltText(/gathering image/i)).toBeInTheDocument();
-    // GatheringInfo와 FloatingBar에 대한 추가적인 검증을 여기에 추가할 수 있습니다.
   });
 });

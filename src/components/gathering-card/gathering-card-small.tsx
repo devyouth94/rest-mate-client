@@ -64,13 +64,7 @@ export default function GatheringCardSmall({
         {new Date(gathering.registrationEnd).toDateString() ===
           new Date().toDateString() && (
           <Tag size="small" className="absolute right-0 top-0">
-            오늘{' '}
-            {new Date(gathering.registrationEnd).toLocaleTimeString('ko-KR', {
-              hour: '2-digit',
-              minute: '2-digit',
-              hour12: false,
-            })}{' '}
-            마감
+            오늘 {gathering.registrationEnd.split('T')[1].substring(0, 5)} 마감
           </Tag>
         )}
       </div>

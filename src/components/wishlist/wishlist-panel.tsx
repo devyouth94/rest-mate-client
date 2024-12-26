@@ -8,7 +8,6 @@ export default function WishlistPanel() {
   const { type, setType } = useWishList();
 
   const handleChangeType = (type: GatheringType) => {
-    console.log(type);
     setType(type);
   };
 

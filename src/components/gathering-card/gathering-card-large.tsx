@@ -15,10 +15,12 @@ import { GatheringTypeContainer } from '~/src/components/gathering-card/gatherin
 import JoinNowButton from '~/src/components/gathering-card/join-now-button';
 import { type GatheringCardProps } from '~/src/components/gathering-card/type-props';
 import useGatheringCard from '~/src/hooks/gatherings/use-gathering-card';
+import { cn } from '~/src/utils/class-name';
 import { isRegistrationEnded } from '~/src/utils/is-registration-ended';
 
 export default function GatheringCardLarge({
   gathering,
+  className,
   ...props
 }: GatheringCardProps) {
   const router = useRouter();
@@ -41,7 +43,11 @@ export default function GatheringCardLarge({
       {...props}
       onClick={handleClick}
       role="card-large"
-      className={`relative flex rounded-3xl border-2 border-gray-100 transition-shadow hover:border-gray-200 hover:shadow-card-hover`}
+      className={cn(
+        `relative flex rounded-3xl border-2 border-gray-100 transition-shadow hover:border-gray-200 hover:shadow-card-hover`,
+        `${isEnded ? `pointer-events-none` : `cursor-pointer`}`,
+        className,
+      )}
     >
       {/* 이미지 */}
       <div className="relative w-[280px] flex-shrink-0">
@@ -122,12 +128,12 @@ export default function GatheringCardLarge({
         </div>
       </div>
 
-      {isRegistrationEnded(gathering.registrationEnd) && (
+      {isEnded && (
         <div
           onClick={(e) => e.stopPropagation()}
-          className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center overflow-hidden rounded-3xl bg-black bg-opacity-80"
+          className="absolute inset-0 z-0 flex items-center justify-center overflow-hidden rounded-3xl bg-black bg-opacity-80"
         >
-          <div className="pointer-events-auto text-center text-sm font-medium text-white">
+          <div className="text-center text-sm font-medium text-white">
             마감된 챌린지예요, <br />
             다음 기회에 만나요🙏
           </div>

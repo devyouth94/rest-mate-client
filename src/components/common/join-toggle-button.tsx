@@ -14,7 +14,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '~/src/components/common/modal';
-import useCustomParams from '~/src/hooks/use-custom-params';
+import useLoginCallbackAtom from '~/src/hooks/use-login-callback-atom';
 import { useJoinGathering } from '~/src/services/gatherings/use-join-gathering';
 import { useLeaveGathering } from '~/src/services/gatherings/use-leave-gathering';
 import { userInfoAtom } from '~/src/stores/auth-store';
@@ -34,16 +34,13 @@ export default function JoinButton({
   const [user] = useAtom(userInfoAtom);
   const router = useRouter();
 
-  const { createUrl } = useCustomParams();
+  const { onChangeCallbackPath } = useLoginCallbackAtom();
 
   const handleClickLogin = () => {
-    router.push(
-      createUrl('/login', {
-        callback: `gatherings/${gatheringId}`,
-        open: 'true',
-      }),
-    );
+    onChangeCallbackPath({ path: `gatherings/${gatheringId}` });
+    router.push('/login');
   };
+
   const handleJoin = () => {
     joinGathering(gatheringId, {
       onSuccess: () => {

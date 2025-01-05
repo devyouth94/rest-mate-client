@@ -4,7 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useSetAtom } from 'jotai';
 import { toast } from 'sonner';
 
-import useCustomParams from '~/src/hooks/use-custom-params';
+import useLoginCallbackAtom from '~/src/hooks/use-login-callback-atom';
 import { post } from '~/src/services/api';
 import { useGetUserInfo } from '~/src/services/auths/get-user';
 import {
@@ -19,8 +19,7 @@ import { setAccessTokenAtom, setUserInfoAtom } from './../../stores/auth-store';
 export function useLogin(form: UseFormReturn<SigninData>) {
   const router = useRouter();
 
-  const { createUrl, getParams } = useCustomParams();
-  const params = getParams(['callback', 'open']);
+  const { callbackData, onChangeCallbackPath } = useLoginCallbackAtom();
 
   const setAccessToken = useSetAtom(setAccessTokenAtom);
   const setUserInfo = useSetAtom(setUserInfoAtom);
@@ -42,8 +41,9 @@ export function useLogin(form: UseFormReturn<SigninData>) {
 
         toast.success(`${userData?.name}님, 환영합니다.`);
 
-        if (params.callback) {
-          router.push(createUrl(`/${params.callback}`, { open: params.open }));
+        if (callbackData.path) {
+          onChangeCallbackPath({ isCallback: true });
+          router.push(`/${callbackData.path}`);
         } else {
           router.push('/');
         }

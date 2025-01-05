@@ -2,7 +2,6 @@
 
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import Button from '~/src/components/common/button';
@@ -28,7 +27,6 @@ import {
   type CreateGatheringForm,
   createGatheringSchema,
 } from '~/src/components/gatherings/create-gathering-modal/schema';
-import useCustomParams from '~/src/hooks/use-custom-params';
 import useCreateGathering from '~/src/services/gatherings/use-create-gathering';
 import { cn } from '~/src/utils/class-name';
 
@@ -38,11 +36,6 @@ interface Props {
 }
 
 export default function ContentsForm({ open, onOpenChange }: Props) {
-  const router = useRouter();
-
-  const { getParams } = useCustomParams();
-  const params = getParams(['open']);
-
   const form = useForm<CreateGatheringForm>({
     resolver: zodResolver(createGatheringSchema),
     defaultValues: {
@@ -75,13 +68,6 @@ export default function ContentsForm({ open, onOpenChange }: Props) {
 
     reset();
   }, [open, reset]);
-
-  useEffect(() => {
-    if (params.open === 'true') {
-      router.replace('/gatherings');
-      onOpenChange(true);
-    }
-  }, [params, router, onOpenChange]);
 
   return (
     <DialogContent

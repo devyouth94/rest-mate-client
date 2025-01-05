@@ -63,6 +63,26 @@ export interface GetGatheringReviewRequest {
 
 export type GetGatheringReviewResponse = GetReviewListResponse;
 
+export interface GatheringReview {
+  id: number;
+  score: number;
+  comment: string;
+  createdAt: string;
+  Gathering: {
+    id: number;
+    type: string;
+    name: string;
+    dateTime: string;
+    location: string;
+    image: string;
+  };
+  User: {
+    id: number;
+    name: string;
+    image: string;
+  };
+}
+
 export interface GetGatheringsRequest {
   limit?: number;
   offset?: number;

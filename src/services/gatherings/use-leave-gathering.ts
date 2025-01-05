@@ -34,7 +34,7 @@ export function useLeaveGathering() {
           toast.error('모임을 찾을 수 없습니다.');
           break;
         default:
-          toast.error('모임 참여를 취소에 실패했습니다.');
+          toast.error('모임 참여 취소에 실패했습니다.');
       }
     },
   });

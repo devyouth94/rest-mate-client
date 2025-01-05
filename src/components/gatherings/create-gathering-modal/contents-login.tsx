@@ -9,14 +9,15 @@ import {
   DialogHeader,
   DialogTitle,
 } from '~/src/components/common/modal';
-import useCustomParams from '~/src/hooks/use-custom-params';
+import useLoginCallbackAtom from '~/src/hooks/use-login-callback-atom';
 
 export default function ContentsLogin() {
   const router = useRouter();
-  const { createUrl } = useCustomParams();
+  const { onChangeCallbackPath } = useLoginCallbackAtom();
 
   const handleClickLogin = () => {
-    router.push(createUrl('/login', { callback: 'gatherings', open: 'true' }));
+    onChangeCallbackPath({ path: 'gatherings' });
+    router.push('/login');
   };
 
   return (

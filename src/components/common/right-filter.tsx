@@ -1,10 +1,9 @@
 'use client';
 
 import { useCallback, useRef, useState } from 'react';
-import Image from 'next/image';
 
-import DownCaret from '~/src/assets/icons/caret-down.svg?url';
-import DownCaretInverse from '~/src/assets/icons/caret-down-inverse.svg?url';
+import DownCaret from '~/src/assets/icons/caret-down.svg';
+import DownCaretInverse from '~/src/assets/icons/caret-down-inverse.svg';
 import CalendarDown from '~/src/components/common/calendar-dropdown';
 import Dropdown from '~/src/components/common/dropdown';
 import { cn } from '~/src/utils/class-name';
@@ -83,13 +82,11 @@ export default function RightFilter({
         )}
       >
         <div className={cn('py-[2px] text-sm', className)}>{selected}</div>
-        <Image
-          src={isClickedFirst ? DownCaretInverse : DownCaret}
-          alt="Caret Icon"
-          className="text-right"
-          width={24}
-          height={24}
-        />
+        {isClickedFirst ? (
+          <DownCaretInverse className="h-6 w-6 text-right" />
+        ) : (
+          <DownCaret className="h-6 w-6 text-right" />
+        )}
       </button>
 
       {isOpen && (

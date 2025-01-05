@@ -33,9 +33,10 @@
     "@vercel/speed-insights": "^1.1.0",
     "@web-std/file": "^3.0.3",
     "axios": "^1.7.8",
+    "browser-image-compression": "^2.0.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
-    "date-fns-tz": "^3.2.0",
+    "jest-fixed-jsdom": "^0.0.9",
     "jotai": "^2.10.3",
     "js-cookie": "^3.0.5",
     "next": "14.2.18",
@@ -49,6 +50,7 @@
     "tailwind-scrollbar": "^3.1.0",
     "tailwindcss-animate": "^1.0.7",
     "use-breakpoint": "^4.0.5",
+    "vaul": "^1.1.2",
     "zod": "^3.23.8"
   },
   "devDependencies": {
@@ -63,6 +65,7 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/testing-library__react-hooks": "^3.4.1",
     "@typescript-eslint/eslint-plugin": "^8.15.0",
     "@typescript-eslint/parser": "^8.15.0",
     "cypress": "^13.16.0",

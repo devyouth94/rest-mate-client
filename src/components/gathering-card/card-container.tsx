@@ -72,7 +72,13 @@ export default function CardContainer() {
         </div>
       )}
       {isFetching && <Loading />}
-      {hasNextPage && <div ref={observerRef} className="z-20 h-8 w-full" />}
+      {hasNextPage && (
+        <div
+          ref={observerRef}
+          role="scroll-observer"
+          className="z-20 h-8 w-full"
+        />
+      )}
     </div>
   );
 }

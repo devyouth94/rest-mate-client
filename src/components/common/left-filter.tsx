@@ -1,7 +1,6 @@
 import { useRef, useState } from 'react';
-import Image from 'next/image';
 
-import SortIcon from '~/src/assets/icons/sort.svg?url';
+import SortIcon from '~/src/assets/icons/sort.svg';
 import Dropdown from '~/src/components/common/dropdown';
 import { cn } from '~/src/utils/class-name';
 
@@ -41,7 +40,8 @@ export default function LeftFilter({
           className,
         )}
       >
-        <Image src={SortIcon} alt="sortIcon" width={24} height={24} />
+        <SortIcon className="h-6 w-6" role="img" aria-label="정렬 아이콘" />
+
         <div
           className={cn(
             'hidden flex-col items-center justify-center py-[2px] text-sm tablet:block',

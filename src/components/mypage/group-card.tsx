@@ -1,24 +1,46 @@
 'use client';
-import { useState } from 'react';
 import Image from 'next/image';
+import { useAtom } from 'jotai';
 
 import SaveBye from '~/src/assets/icons/circle-bye.svg';
 import NoImage from '~/src/assets/images/bg-login.png';
 import ChipState from '~/src/components/common/chip-state';
 import MemberCountChip from '~/src/components/common/member-count-chip';
 import { type GroupCardProps } from '~/src/components/mypage/type';
+import CreateReviewModal from '~/src/components/reviews/create-review-modal';
+import { useCancelGathering } from '~/src/services/mypage/use-leave-joined-gathering';
+import { userInfoAtom } from '~/src/stores/auth-store';
+import { activeTabAtom } from '~/src/stores/my-page-atoms';
 import formatDateTime from '~/src/utils/format-date-time';
 
 export default function GroupCard({
   joinedGathering,
   state: initialState,
 }: GroupCardProps) {
-  const [state, setState] = useState(initialState);
+  const state = initialState;
+  const [activeTab] = useAtom(activeTabAtom);
+  const [user] = useAtom(userInfoAtom);
   const { date, time } = formatDateTime(joinedGathering.dateTime ?? '');
   const isConfirmed = (joinedGathering.participantCount ?? 0) >= 5;
 
+  const { mutate: leaveGathering } = useCancelGathering();
+
   const handleCancelReservation = () => {
-    setState('disabled');
+    if (!user?.id) {
+      alert('예약 취소에 실패했습니다. 다시 시도해주세요.');
+      return;
+    }
+    leaveGathering(
+      { gatheringId: joinedGathering.id },
+      {
+        onSuccess: () => {
+          alert('모임 참여를 성공적으로 취소했습니다.');
+        },
+        onError: () => {
+          alert('예약 취소에 실패했습니다. 다시 시도해주세요.');
+        },
+      },
+    );
   };
 
   return (
@@ -32,7 +54,11 @@ export default function GroupCard({
       />
       <div className="flex h-[156px] w-auto flex-col justify-between">
         <span
-          className={`${joinedGathering.isReviewed ? 'hidden' : 'block'} flex h-8 gap-2`}
+          className={`${
+            joinedGathering.isCompleted && activeTab === 'myReviews'
+              ? 'hidden'
+              : 'block'
+          } flex h-8 gap-2`}
         >
           <ChipState
             state={joinedGathering.isCompleted ? 'done' : 'scheduled'}
@@ -69,12 +95,7 @@ export default function GroupCard({
         </div>
 
         {joinedGathering.isCompleted ? (
-          <button
-            className="h-10 w-[120px] cursor-not-allowed rounded-xl border-[1px] border-orange-600 bg-white px-[20px] py-[10px] text-sm font-semibold text-orange-600"
-            disabled
-          >
-            예약 취소하기
-          </button>
+          <CreateReviewModal gatheringId={joinedGathering.id} />
         ) : (
           <button
             onClick={handleCancelReservation}

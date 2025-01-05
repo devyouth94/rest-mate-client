@@ -16,13 +16,16 @@ export default function useGetJoinedGatheringsInfinite(
 ) {
   return useInfiniteQuery({
     queryKey: gatheringsQueryKeys.joinedInfiniteList(params, userId),
-    queryFn: ({ pageParam }) =>
-      get<GetJoinedGatheringsResponse>(`/gatherings/joined`, {
-        params: { ...params, ...pageParam },
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
+    queryFn: async ({ pageParam }) => {
+      const response = await get<GetJoinedGatheringsResponse>(
+        `/gatherings/joined`,
+        {
+          params: { ...params, ...pageParam },
         },
-      }),
+      );
+
+      return response;
+    },
     enabled: !!accessToken && !!userId,
     initialPageParam: { limit: LIMIT, offset: 0 },
     getNextPageParam: (lastPage, _, lastPageParam) =>

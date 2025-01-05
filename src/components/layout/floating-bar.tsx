@@ -1,9 +1,11 @@
+import { useEffect } from 'react';
 import { useAtom } from 'jotai';
 import { toast } from 'sonner';
 
 import Button from '~/src/components/common/button';
 import CancelGatheringButton from '~/src/components/common/cancel-gathering-button';
 import JoinButton from '~/src/components/common/join-toggle-button';
+import useLoginCallbackAtom from '~/src/hooks/use-login-callback-atom';
 import { type Gathering } from '~/src/services/gatherings/types';
 import useJoinedGathering from '~/src/services/gatherings/use-joined-gathering';
 import { userInfoAtom } from '~/src/stores/auth-store';
@@ -16,6 +18,7 @@ interface FloatingBarProps {
 export default function FloatingBar({ gathering }: FloatingBarProps) {
   const [user] = useAtom(userInfoAtom);
   const { data: joinedGathering } = useJoinedGathering();
+  const { callbackData, onResetCallbackPath } = useLoginCallbackAtom();
 
   const isCreator = user?.id === gathering.createdBy;
   const isParticipant =
@@ -30,6 +33,12 @@ export default function FloatingBar({ gathering }: FloatingBarProps) {
       toast.success('링크가 복사되었습니다.');
     }
   };
+
+  useEffect(() => {
+    if (callbackData.isCallback) {
+      onResetCallbackPath();
+    }
+  }, [callbackData.isCallback, onResetCallbackPath]);
 
   return (
     <footer className="fixed inset-x-0 bottom-0 z-10 flex min-h-floatingBar items-center border-t-2 border-secondary-900 bg-white py-5">

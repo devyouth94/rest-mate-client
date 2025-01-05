@@ -35,11 +35,6 @@ export default function useGatheringReview({
           offset: (currentPage - 1) * limit,
         },
       });
-      console.log('Server response:', {
-        currentPage,
-        offset: (currentPage - 1) * limit,
-        response: response,
-      });
       return response;
     },
     initialData,

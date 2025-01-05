@@ -62,6 +62,8 @@ export default function CalendarDown({
 
   return (
     <div
+      role="dialog"
+      aria-label="캘린더"
       ref={calendarRef}
       className={cn(
         'absolute z-50 mt-2 flex w-[336px] flex-col gap-3 rounded-xl border-[1px] border-secondary-200 bg-white px-[43px] py-6 shadow-xl',
@@ -79,6 +81,8 @@ export default function CalendarDown({
 
       <span className="flex h-10 gap-2">
         <Button
+          role="button"
+          aria-label="초기화"
           onClick={onReset}
           disabled={!tempSelectedDate}
           className="p-2"

@@ -25,6 +25,7 @@ export default function Rating({
     <div className={cn('flex gap-0.5', onScoreChange && 'cursor-pointer')}>
       {Array.from({ length: MAX_VALUE }, (_, index) => (
         <HeartIcon
+          role="button"
           key={index}
           isActive={index < value}
           isAnimate={!!onScoreChange || !!onClick}

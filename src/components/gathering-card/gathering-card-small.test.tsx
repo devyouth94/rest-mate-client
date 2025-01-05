@@ -1,4 +1,3 @@
-import { useRouter } from 'next/navigation';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
@@ -19,9 +18,18 @@ const MOCK_GATHERING: Gathering = {
   canceledAt: null,
 };
 
-describe('GatheringCardLarge 컴포넌트', () => {
+const mockRouter = {
+  push: jest.fn(),
+};
+
+jest.mock('next/navigation', () => ({
+  useRouter: () => mockRouter,
+}));
+
+describe('GatheringCardSmall 컴포넌트', () => {
   beforeEach(() => {
     localStorage.clear();
+    mockRouter.push.mockClear();
   });
 
   it('기본 정보가 올바르게 렌더링되어야 함', () => {
@@ -137,19 +145,26 @@ describe('GatheringCardLarge 컴포넌트', () => {
 
   describe('라우팅 동작', () => {
     it('카드 클릭 시 올바른 경로로 이동해야 함', async () => {
-      const router = useRouter();
-      render(<GatheringCardSmall gathering={MOCK_GATHERING} />);
+      const user = userEvent.setup();
+
+      // 미래 날짜로 설정하여 isEnded가 false가 되도록 함
+      const activeGathering = {
+        ...MOCK_GATHERING,
+        registrationEnd: '2025-12-31T23:59:59+09:00',
+      };
+
+      render(<GatheringCardSmall gathering={activeGathering} />);
 
       const card = screen.getByRole('card-small');
-      await userEvent.click(card);
+      await user.click(card);
 
-      expect(router.push).toHaveBeenCalledWith(
+      expect(mockRouter.push).toHaveBeenCalledWith(
         `/gatherings/${MOCK_GATHERING.id}`,
       );
     });
 
     it('마감된 모임은 클릭해도 라우팅이 발생하지 않아야 함', async () => {
-      const router = useRouter();
+      const user = userEvent.setup();
       const closedGathering = {
         ...MOCK_GATHERING,
         registrationEnd: '2023-01-01T00:00:00+09:00',
@@ -158,9 +173,9 @@ describe('GatheringCardLarge 컴포넌트', () => {
       render(<GatheringCardSmall gathering={closedGathering} />);
 
       const card = screen.getByRole('card-small');
-      await userEvent.click(card);
+      await user.click(card);
 
-      expect(router.push).not.toHaveBeenCalled();
+      expect(mockRouter.push).not.toHaveBeenCalled();
     });
   });
 

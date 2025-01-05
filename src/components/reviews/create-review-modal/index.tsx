@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { DialogDescription } from '@radix-ui/react-dialog';
 
 import Button from '~/src/components/common/button';
 import {
@@ -75,6 +76,7 @@ export default function CreateReviewModal({ gatheringId }: Props) {
       <DialogContent aria-describedby="리뷰 작성 폼" className="flex flex-col">
         <DialogHeader>
           <DialogTitle>리뷰 쓰기</DialogTitle>
+          <DialogDescription hidden>리뷰 작성 폼</DialogDescription>
         </DialogHeader>
 
         <ScrollArea className="grow">

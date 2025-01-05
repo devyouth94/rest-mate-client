@@ -1,6 +1,6 @@
 import { act, renderHook } from '@testing-library/react';
 
-import useGatheringCard from './use-gathering-card';
+import useGatheringCard from '~/src/hooks/gatherings/use-gathering-card';
 
 describe('useGatheringCard 훅', () => {
   beforeEach(() => {
@@ -40,7 +40,7 @@ describe('useGatheringCard 훅', () => {
     expect(result.current.cardState).toBe('closed');
   });
 
-  it('찜하기 버튼이 로컬스토리지를 올바르게 업데이트해야 함', () => {
+  it('찜하기 버튼 클릭 시 로컬스토리지에 모임 ID가 추가되어야 함', () => {
     const { result } = renderHook(() =>
       useGatheringCard({
         gatheringId: 1,
@@ -59,6 +59,24 @@ describe('useGatheringCard 훅', () => {
 
     expect(result.current.isSaved).toBe(true);
     expect(JSON.parse(localStorage.getItem('wishlist') || '[]')).toContain(1);
+  });
+
+  it('로컬 스토리지에 저장된 모임 ID가 있을 때 isSaved가 true로 초기화되고, 찜하기 취소 시 제거되어야 함', () => {
+    localStorage.setItem('wishlist', JSON.stringify([1]));
+
+    const { result } = renderHook(() =>
+      useGatheringCard({
+        gatheringId: 1,
+        participantCount: 3,
+        capacity: 10,
+      }),
+    );
+
+    expect(result.current.isSaved).toBe(true);
+
+    const mockEvent = {
+      stopPropagation: jest.fn(),
+    } as unknown as React.MouseEvent<SVGSVGElement>;
 
     act(() => {
       result.current.handleSaveButton(1)(mockEvent);

@@ -41,9 +41,9 @@ export default function Heart({
         r="12"
         mask="url(#heartMask)"
         className={cn(
-          'origin-center fill-orange-600',
+          'origin-center scale-0 fill-orange-600 opacity-0',
+          isActive && 'scale-100 opacity-100',
           isAnimate && 'transition-all duration-300 ease-out',
-          isActive ? 'scale-100 opacity-100' : 'scale-0 opacity-0',
         )}
       />
     </svg>

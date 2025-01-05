@@ -92,6 +92,7 @@ const config: Config = {
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
   moduleNameMapper: {
     '^~/(.*)$': '<rootDir>/$1',
+    '^.+\\.(svg)\\?url$': '<rootDir>/src/mocks/svgrMock.js',
     '^.+\\.(svg)$': '<rootDir>/src/mocks/svgrMock.js',
     '\\.(jpg|jpeg|png|gif|webp)$': '<rootDir>/src/mocks/fileMock.js',
   },
@@ -150,10 +151,12 @@ const config: Config = {
   // snapshotSerializers: [],
 
   // The test environment that will be used for testing
-  testEnvironment: 'jsdom',
+  testEnvironment: 'jest-fixed-jsdom',
 
   // Options that will be passed to the testEnvironment
-  // testEnvironmentOptions: {},
+  testEnvironmentOptions: {
+    customExportConditions: [''],
+  },
 
   // Adds a location field to test results
   // testLocationInResults: false,

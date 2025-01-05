@@ -22,11 +22,10 @@ export default function GatheringReviewList({ gatheringId }: Props) {
     });
 
   if (isLoading) return <Loading />;
-  if (isError) {
+  if (isError || !data) {
     console.error('Error fetching data: ', error);
     return <div>Error loading data</div>;
   }
-  if (!data) return <div>데이터가 없습니다</div>;
 
   const { data: reviews, totalPages } = data;
 
